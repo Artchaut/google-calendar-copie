@@ -11,7 +11,7 @@
 
 <section>
 	<h1>
-		<span class="welcome">
+		<span class="welcome bg-red-800">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
 				<img src={welcome_fallback} alt="Welcome" />
