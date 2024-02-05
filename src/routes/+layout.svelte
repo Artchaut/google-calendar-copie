@@ -19,7 +19,7 @@
 	  })
   
 	const handleSignOut = async () => {
-	  await supabase.auth.signOut()
+		await supabase.auth.signOut()
 	}
   </script>
   
@@ -35,7 +35,7 @@
 			  {#if !session}
 				<a href="/login" class="link">Connection</a>
 			  {:else}
-				<p class="inline-block mr-3">Connecté</p>
+				<p class="accent-content inline-block mr-3"><span class="success">• </span>Connecté</p>
 			  {/if}
 			</div>
 			<div class="dropdown dropdown-end">
@@ -59,7 +59,7 @@
   </section>
   
   <bottom>
-	<footer class="footer p-10 bg-neutral text-neutral-content">
+	<footer class="footer p-10 bg-neutral text-neutral-content mt-7">
 	  <div>
 		<span class="footer-title">Services</span> 
 		<a class="link link-hover" href="/">Branding</a>
