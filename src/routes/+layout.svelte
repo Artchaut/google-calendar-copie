@@ -24,7 +24,7 @@
   </script>
   
   <navbar> 
-	<header class="navbar bg-accent-content mb-12">
+	<header class="navbar bg-accent mb-12">
 	  <div class="flex-1">
 		<a class="btn btn-ghost normal-case text-x1" href="/">Hades Calendar</a>
 	  </div>
