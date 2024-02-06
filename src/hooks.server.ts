@@ -19,7 +19,10 @@ export const handle: Handle = async ({ event, resolve }) => {
     } = await event.locals.supabase.auth.getSession()
     return session
   }
-
+  // Get Profile 
+  event.locals.profile =async (params:type) => {
+    
+  }
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'

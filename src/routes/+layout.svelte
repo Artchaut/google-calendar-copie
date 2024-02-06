@@ -58,7 +58,6 @@
 	<slot />
   </section>
   
-  <bottom>
 	<footer class="footer p-10 bg-neutral text-neutral-content mt-7">
 	  <div>
 		<span class="footer-title">Services</span> 
@@ -81,7 +80,6 @@
 		<a class="link link-hover" href="/">Cookie policy</a>
 	  </div>
 	</footer>
-  </bottom>
   
   <dialog id="logout" class="modal modal-bottom sm:modal-middle">
 	<form method="dialog" class="modal-box">
