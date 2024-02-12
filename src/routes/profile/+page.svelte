@@ -13,6 +13,6 @@
     
       <a href="/login" class="btn btn-primary">Se connecter</a>
     {:else}
-       <h1>Bienvenue</h1>
+       <h1>Bienvenue sur votre profil</h1>
     {/if}
     
