@@ -6,11 +6,11 @@ const config = {
 		extend: {}
 	},
 
-	plugins: [require("daisyui")],
+	plugins: [require('daisyui')],
 
 	daisyui: {
-		themes: ["sunset", "dracula"],
-		default: "dracula"
+		themes: ['sunset', 'dracula'],
+		default: 'dracula'
 	}
 };
 
