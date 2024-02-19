@@ -1,5 +1,6 @@
 <script>
     export let form
+
   </script>
   
     <h1 class="text-base-content text-2xl mb-4 ">Créer un compte</h1>
