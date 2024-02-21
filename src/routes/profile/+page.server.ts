@@ -7,6 +7,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 		throw redirect(303, '/');
 	}
 
+
 	const { data: profile } = await supabase
 		.from('profiles')
 		.select(`username, full_name, website, avatar_url`)

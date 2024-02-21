@@ -10,19 +10,23 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event
 	});
 
-	/**
-	 * A convenience helper so we can just call await getSession() instead const { data: { session } } = await supabase.auth.getSession()
-	 */
-	event.locals.getSession = async () => {
-		const {
-			data: { session }
-		} = await event.locals.supabase.auth.getSession();
-		return session;
-	};
+  /**
+   * A convenience helper so we can just call await getSession() instead const { data: { session } } = await supabase.auth.getSession()
+   */
+  event.locals.getSession = async () => {
+    const {
+      data: { session },
+    } = await event.locals.supabase.auth.getSession()
+    return session
+  }
+  // Get Profile 
+  event.locals.profile =async (params:type) => {
+    
+  }
+  return resolve(event, {
+    filterSerializedResponseHeaders(name) {
+      return name === 'content-range'
+    },
+  })
+}
 
-	return resolve(event, {
-		filterSerializedResponseHeaders(name) {
-			return name === 'content-range';
-		}
-	});
-};
