@@ -1,23 +1,23 @@
 <script lang="ts">
-	import "../app.pcss";
-	import { invalidate } from "$app/navigation";
-	import { onMount } from "svelte";
-  
-	export let data
-  
-	let { supabase, session } = data
-	  $: ({ supabase, session } = data)
-  
-	  onMount(() => {
-		  const { data } = supabase.auth.onAuthStateChange((event, _session) => {
-			  if (_session?.expires_at !== session?.expires_at) {
-				  invalidate('supabase:auth')
-			  }
-		  })
-  
-		  return () => data.subscription.unsubscribe()
-	  })
-  
+	import '../app.pcss';
+	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	export let data;
+
+	let { supabase, session } = data;
+	$: ({ supabase, session } = data);
+
+	onMount(() => {
+		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
+
+		return () => data.subscription.unsubscribe();
+	});
+
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
 	}
@@ -47,48 +47,48 @@
 				<li><button onclick="logout.showModal()" on:click="{handleSignOut}" class="link">Déconnexion</button></li>
 			  </ul>
 			</div>
-		  </div>
 		</div>
-	  </div>
 	</header>
-  </navbar>
-  
-  
-  <section class="flex flex-col w-full place-items-center" style="height: 70vh;">
+</navbar>
+
+<section class="flex w-full flex-col place-items-center" style="height: 70vh;">
 	<slot />
-  </section>
-  
-	<footer class="footer p-10 bg-neutral text-neutral-content mt-7">
-	  <div>
-		<span class="footer-title">Services</span> 
-		<a class="link link-hover" href="/">Branding</a>
-		<a class="link link-hover" href="/">Design</a>
-		<a class="link link-hover" href="/">Marketing</a>
-		<a class="link link-hover" href="/">Advertisement</a>
-	  </div> 
-	  <div>
-		<span class="footer-title" href="/">Company</span> 
-		<a class="link link-hover" href="/">About us</a>
-		<a class="link link-hover" href="/">Contact</a>
-		<a class="link link-hover" href="/">Jobs</a>
-		<a class="link link-hover" href="/">Press kit</a>
-	  </div> 
-	  <div>
-		<span class="footer-title" href="/">Legal</span> 
-		<a class="link link-hover" href="/">Terms of use</a>
-		<a class="link link-hover" href="/">Privacy policy</a>
-		<a class="link link-hover" href="/">Cookie policy</a>
-	  </div>
+</section>
+
+<bottom>
+	<footer class="footer bg-neutral p-10 text-neutral-content">
+		<div>
+			<span class="footer-title">Services</span>
+			<a class="link-hover link" href="/">Branding</a>
+			<a class="link-hover link" href="/">Design</a>
+			<a class="link-hover link" href="/">Marketing</a>
+			<a class="link-hover link" href="/">Advertisement</a>
+		</div>
+		<div>
+			<span class="footer-title" href="/">Company</span>
+			<a class="link-hover link" href="/">About us</a>
+			<a class="link-hover link" href="/">Contact</a>
+			<a class="link-hover link" href="/">Jobs</a>
+			<a class="link-hover link" href="/">Press kit</a>
+		</div>
+		<div>
+			<span class="footer-title" href="/">Legal</span>
+			<a class="link-hover link" href="/">Terms of use</a>
+			<a class="link-hover link" href="/">Privacy policy</a>
+			<a class="link-hover link" href="/">Cookie policy</a>
+		</div>
 	</footer>
-  
-  <dialog id="logout" class="modal modal-bottom sm:modal-middle">
+</bottom>
+
+<dialog id="logout" class="modal modal-bottom sm:modal-middle">
 	<form method="dialog" class="modal-box">
-	  <h3 class="font-bold text-lg">Vous avez bien été déconnecté</h3>
-	  <p class="py-4"><button class="link" href="/login">Se connecter avec un autre compte</button></p>
-	  <div class="modal-action">
-		<!-- if there is a button in form, it will close the modal -->
-		<button class="btn">Fermer</button>
-	  </div>
+		<h3 class="text-lg font-bold">Vous avez bien été déconnecté</h3>
+		<p class="py-4">
+			<button class="link" href="/login">Se connecter avec un autre compte</button>
+		</p>
+		<div class="modal-action">
+			<!-- if there is a button in form, it will close the modal -->
+			<button class="btn">Fermer</button>
+		</div>
 	</form>
-  </dialog>
-  
+</dialog>

@@ -1,12 +1,26 @@
-<script>
-	export let data;
+<script lang="ts">
+	import Calendar from '$lib/components/calendar.svelte';
 
-	let { session, supabase, profile } = data
-	$: ({ session, supabase, profile } = data)
+	const day_name: string[] = [
+		'Lundi',
+		'Mardi',
+		'Mercredi',
+		'Jeudi',
+		'Vendredi',
+		'Samedi',
+		'Dimanche'
+	];
+	const makeMonth = (n_days: number, f_day: number) => {
+		const days: Day[] = [];
+		for (let i = 0; i < 35; i++) {
+			const day_n: string = day_name[f_day];
+			const day = { name: day_n, is_activated: false };
+		}
 
-	if (data.error) {
-		session = false
-	}
+		return days;
+	};
+
+	const days = makeMonth(29, 3);
 </script>
 
 <svelte:head>
@@ -15,9 +29,5 @@
 </svelte:head>
 
 <section>
-	{#if !session}
-		<a href="/login" class="btn btn-primary">Se connecter</a>
-	{:else}
-		<h1>Bonjour, {profile?.full_name === undefined ?  "" : profile.full_name}</h1>
-	{/if}
+	<Calendar {days} />
 </section>
