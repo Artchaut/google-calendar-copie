@@ -6,7 +6,12 @@ const config = {
 		extend: {}
 	},
 
-	plugins: []
+	plugins: [require('daisyui')],
+
+	daisyui: {
+		themes: ['sunset', 'dracula'],
+		default: 'dracula'
+	}
 };
 
 module.exports = config;
