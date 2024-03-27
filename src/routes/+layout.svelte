@@ -2,11 +2,14 @@
 	import '../app.pcss';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	export let data;
 
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
+
+	let logoutModal: boolean = false;
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
@@ -19,6 +22,7 @@
 	});
 
 	const handleSignOut = async () => {
+		logoutModal = true;
 		await supabase.auth.signOut();
 	};
 </script>
@@ -55,16 +59,18 @@
 								></path></svg
 							>
 						</label>
+
 						<ul
 							tabindex="-1"
 							class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
 						>
-							<li><a class="link" href="/profile">Profile</a></li>
-							<li>
-								<button onclick="logout.showModal()" on:click={handleSignOut} class="link"
-									>Déconnexion</button
-								>
-							</li>
+							<li><a class="link block" href="/profile">Profile</a></li>
+
+							{#if session}
+								<li>
+									<button on:click={handleSignOut} class="link">Déconnexion</button>
+								</li>
+							{/if}
 						</ul>
 					</div>
 				</div>
@@ -102,15 +108,13 @@
 	</footer>
 </bottom>
 
-<dialog id="logout" class="modal modal-bottom sm:modal-middle">
-	<form method="dialog" class="modal-box">
+<Modal showModal={logoutModal}>
+	{#if !logoutModal}
+		<span class="loading loading-infinity loading-lg"></span>
+	{:else}
 		<h3 class="text-lg font-bold">Vous avez bien été déconnecté</h3>
 		<p class="py-4">
-			<button class="link" href="/login">Se connecter avec un autre compte</button>
+			<a class="link" href="/login">Se connecter avec un autre compte</a>
 		</p>
-		<div class="modal-action">
-			<!-- if there is a button in form, it will close the modal -->
-			<button class="btn">Fermer</button>
-		</div>
-	</form>
-</dialog>
+	{/if}
+</Modal>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Calendar from '$lib/components/Calendar.svelte';
-	import CreateEvent from '$lib/components/CreateEvent.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -52,7 +52,7 @@
 	<Calendar {days} />
 </section>
 
-<CreateEvent bind:showModal>
+<Modal bind:showModal>
 	<form method="post" class="flex w-full flex-col place-items-center" use:enhance={handleSubmit}>
 		{#if loading === true}
 			<span class="loading loading-infinity loading-lg"></span>
@@ -97,4 +97,4 @@
 			<button class="btn btn-primary" type="submit">Créer</button>
 		{/if}
 	</form>
-</CreateEvent>
+</Modal>

@@ -15,7 +15,8 @@
 	<div on:click|stopPropagation class="modal-box">
 		<button
 			on:click={() => dialog.close()}
-			class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button
+			type="button"
+			class="dialog-action btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button
 		>
 		<slot />
 	</div>
