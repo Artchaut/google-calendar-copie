@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Calendar from '$lib/components/Calendar.svelte';
-	import CreateEvent from '$lib/components/CreateEvent.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -30,11 +30,16 @@
 	let loading: boolean = false;
 
 	const handleSubmit: SubmitFunction = () => {
-		loading = true
+		loading = true;
 		return async () => {
-			loading = false
-		}
-	}
+			setTimeout(() => {
+				loading = false;
+				() => (showModal = false);
+			}, 5000);
+		};
+	};
+
+	const contacts = ['Personne 1', 'Personne 2'];
 </script>
 
 <svelte:head>
@@ -47,21 +52,49 @@
 	<Calendar {days} />
 </section>
 
-<CreateEvent bind:showModal>
-	<form 
-		method="post"
-	 	class="flex w-full flex-col place-items-center"
-		use:enhance={handleSubmit}
-	>
-		<h1 class="mb-6 text-2xl text-primary">Créer un Evènement</h1>
-		<input class="input input-bordered input-primary mb-4" type="text" name="name" placeholder="Nom de l'évènement" disabled={loading} />
-		<input class="input input-bordered input-primary mb-4" type="text" name="description" placeholder="Description" disabled={loading} />
-		<input class="input input-bordered input-primary mb-4" type="datetime-local" name="beginning" placeholder="Début" disabled={loading} />
-		<input class="input input-bordered input-primary mb-4" type="datetime-local" name="ending" placeholder="Fin" disabled={loading} />
+<Modal bind:showModal>
+	<form method="post" class="flex w-full flex-col place-items-center" use:enhance={handleSubmit}>
+		{#if loading === true}
+			<span class="loading loading-infinity loading-lg"></span>
+		{:else}
+			<h1 class="mb-6 text-2xl text-primary">Créer un Evènement</h1>
+			<input
+				class="input input-bordered input-primary mb-4"
+				type="text"
+				name="name"
+				placeholder="Nom de l'évènement"
+				disabled={loading}
+			/>
+			<input
+				class="input input-bordered input-primary mb-4"
+				type="text"
+				name="description"
+				placeholder="Description"
+				disabled={loading}
+			/>
+			<input
+				class="input input-bordered input-primary mb-4"
+				type="datetime-local"
+				name="beginning"
+				placeholder="Début"
+				disabled={loading}
+			/>
+			<input
+				class="input input-bordered input-primary mb-4"
+				type="datetime-local"
+				name="ending"
+				placeholder="Fin"
+				disabled={loading}
+			/>
 
-		<!-- ici ajouter une élément permettant de choisir des collabateurs-->
-
-		<button class="btn btn-primary" type="submit">Créer</button>
+			<!-- ici ajouter une élément permettant de choisir des collabateurs-->
+			<select class="select select-primary">
+				<option value="">Ajoutez des collaborateurs (Optionnel) </option>
+				{#each contacts as contact}
+					<option value={contact}>{contact}</option>
+				{/each}
+			</select>
+			<button class="btn btn-primary" type="submit">Créer</button>
+		{/if}
 	</form>
-
-</CreateEvent>
+</Modal>
