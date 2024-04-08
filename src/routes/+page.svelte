@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Calendar from '$lib/components/Calendar.svelte';
 	import CreateEvent from '$lib/components/CreateEvent.svelte';
+	import { DatePicker } from "@svelte-plugins/datepicker";
+	import { format } from "date-fns";
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -24,7 +26,7 @@
 		return days;
 	};
 
-	const days = makeMonth(29, 3);
+	const days = makeMonth(31, 27);
 
 	let showModal: boolean;
 	let loading: boolean = false;
@@ -35,7 +37,35 @@
 			loading = false
 		}
 	}
+
+	let startDate = new Date();
+	let dateFormat = "dd/MM/yyyy";
+	let isOpen = false;
+
+	const toggleDatePicker = () => (isOpen = !isOpen);
+
+	const formatDate = (dateString: string | number | Date) => {
+		return dateString && format(new Date(dateString), dateFormat) || '';
+	};
+
+	let formattedStartDate = formatDate(startDate);
+
+	const onChange = () => {
+		startDate = new Date(formattedStartDate);
+	};
+
+	$: formattedStartDate = formatDate(startDate);	
 </script>
+
+<style>
+	input[type="text"] {
+	  border: 1px solid #eee;
+	  border-radius: 20px;
+	  padding: 8px;
+	  
+	}
+	
+</style>
 
 <svelte:head>
 	<title>Home</title>
@@ -43,6 +73,9 @@
 </svelte:head>
 
 <section>
+	<DatePicker bind:isOpen bind:startDate>
+		<input type="text" placeholder="Select date" bind:value={formattedStartDate} on:click={toggleDatePicker} />
+	</DatePicker>
 	<button class="btn btn-primary" on:click={() => (showModal = true)}>Clique</button>
 	<Calendar {days} />
 </section>
@@ -60,7 +93,6 @@
 		<input class="input input-bordered input-primary mb-4" type="datetime-local" name="ending" placeholder="Fin" disabled={loading} />
 
 		<!-- ici ajouter une élément permettant de choisir des collabateurs-->
-
 		<button class="btn btn-primary" type="submit">Créer</button>
 	</form>
 
