@@ -1,11 +1,12 @@
 <script lang="ts">
-	import Calendar from '$lib/components/Calendar.svelte';
+	import Calendar from '$lib/components/MonthlyCalendar.svelte';
 	import CreateEvent from '$lib/components/CreateEvent.svelte';
 	import { DatePicker } from '@svelte-plugins/datepicker';
 	import { format } from 'date-fns';
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import MonthlyCalendar from '$lib/components/MonthlyCalendar.svelte';
 
 	const day_name: string[] = [
 		'Lundi',
@@ -72,7 +73,7 @@
 		/>
 	</DatePicker>
 	<button class="btn btn-primary" on:click={() => (showModal = true)}>Clique</button>
-	<Calendar />
+	<MonthlyCalendar />
 </section>
 
 <CreateEvent bind:showModal>

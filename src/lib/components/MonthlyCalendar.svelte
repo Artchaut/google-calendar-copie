@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import MonthlyDays from './MonthlyDays.svelte';
 
 	let date = new Date();
 
 	let month: string;
 	let year: number;
+
+	let days: number[] = [];
 
 	const months = [
 		'Janvier',
@@ -22,10 +24,8 @@
 	];
 
 	const renderCalendar = async () => {
-		let days: number[] = [];
-
 		date.setDate(1);
-
+		days = [];
 		const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
 		const prevLastDay = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
@@ -55,6 +55,7 @@
 		for (let j = 1; j <= nextDays; j++) {
 			days.push(j);
 		}
+		days.shift();
 		return days;
 	};
 
@@ -70,86 +71,14 @@
 			renderCalendar();
 		}, 500);
 	};
+
+	$: d = days;
 </script>
-
-<!-- <table bgcolor="lightgrey" align="center" cellspacing="32" cellpadding="32">
-	<caption> </caption>
-
-	<thead>
-		<tr>
-			<th class="bg-accent text-white">Lun</th>
-			<th class="bg-accent text-white">Mar</th>
-			<th class="bg-accent text-white">Mer</th>
-			<th class="bg-accent text-white">Jeu</th>
-			<th class="bg-accent text-white">Ven</th>
-			<th class="bg-accent text-white">Sam</th>
-			<th class="bg-accent text-white">Dim</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td>1</td>
-			<td>2</td>
-		</tr>
-		<tr></tr>
-		<tr>
-			<td>3</td>
-			<td>4</td>
-			<td>5</td>
-			<td>6</td>
-			<td>7</td>
-			<td>8</td>
-			<td>9</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>11</td>
-			<td>12</td>
-			<td>13</td>
-			<td>14</td>
-			<td>15</td>
-			<td>16</td>
-		</tr>
-		<tr>
-			<td>17</td>
-			<td>18</td>
-			<td>19</td>
-			<td>20</td>
-			<td>21</td>
-			<td>22</td>
-			<td>23</td>
-		</tr>
-		<tr>
-			<td>24</td>
-			<td>25</td>
-			<td>26</td>
-			<td>27</td>
-			<td>28</td>
-			<td>29</td>
-			<td>30</td>
-		</tr>
-		<tr>
-			<td>31</td>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-			<td>4</td>
-			<td>5</td>
-			<td>6</td>
-		</tr>
-	</tbody>
-</table> -->
 
 {#await renderCalendar()}
 	<p>wait..</p>
 {:then days}
-	<div id="calendar">
+	<table id="calendar">
 		<div id="calendar-header" class="flex flex-row space-x-5">
 			<button id="month-prev" class="btn btn-circle" on:click={prevMonth}>
 				<svg
@@ -183,23 +112,18 @@
 		</div>
 
 		<div id="calendar-body">
-			<th>Lun</th>
-			<th>Mar</th>
-			<th>Mer</th>
-			<th>Jeu</th>
-			<th>Ven</th>
-			<th>Sam</th>
-			<th>Dim</th>
-
-			{#each days as day}
-				<td>{day}</td>
-			{/each}
+			<tr>
+				<th>Lun</th>
+				<th>Mar</th>
+				<th>Mer</th>
+				<th>Jeu</th>
+				<th>Ven</th>
+				<th>Sam</th>
+				<th>Dim</th>
+			</tr>
+			{#key d}
+				<MonthlyDays days={d} />
+			{/key}
 		</div>
-	</div>
+	</table>
 {/await}
-
-<style>
-	td {
-		color: grey;
-	}
-</style>
