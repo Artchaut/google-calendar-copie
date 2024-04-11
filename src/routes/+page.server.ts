@@ -1,3 +1,7 @@
+type event = {
+	data: []
+}
+
 export const load = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
@@ -5,13 +9,12 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 		return { error: 'session have not been loaded' };
 	}
 
-	const { data: profile } = await supabase
-		.from('profiles')
-		.select(`username, full_name, avatar_url`)
+	const { events, err } = await supabase
+		.from('event')
 		.eq('id', session.user.id)
-		.single();
+		.select()
 
-	return { session, profile };
+	return { session, events};
 };
 
 export const actions = {

@@ -22,7 +22,6 @@
 	});
 
 	const handleSignOut = async () => {
-		logoutModal = true;
 		await supabase.auth.signOut();
 	};
 </script>
@@ -64,6 +63,12 @@
 							tabindex="-1"
 							class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
 						>
+							<li><a class="link" href="/profile">Profile</a></li>
+							<li>
+								<button onclick="logout.showModal()" on:click={handleSignOut} class="link"
+									>Déconnexion</button
+								>
+							</li>
 							<li><a class="link block" href="/profile">Profile</a></li>
 
 							{#if session}
