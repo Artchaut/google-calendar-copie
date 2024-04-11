@@ -83,9 +83,13 @@
 		</div>
 	</form>
 
-	<form method="post" action="?/signout" use:enhance={handleSignOut} class="mb-10">
-		<div>
-			<button class="btn btn-primary" disabled={loading}>Sign Out</button>
-		</div>
-	</form>
-</div>
+		<form method="post" action="?/signout" use:enhance={handleSignOut} class="mb-10">
+			<div>
+				<button class="btn btn-primary" disabled={loading}>Sign Out</button>
+			</div>
+		</form>
+	</div>
+{:else}
+	<h1>Vous n'êtes pas connecté</h1>
+	<a href="/login" class="btn btn-primary">Se Connecter</a>
+{/if}
