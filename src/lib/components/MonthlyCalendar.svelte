@@ -1,12 +1,13 @@
 <script lang="ts">
 	import MonthlyDays from './MonthlyDays.svelte';
 
-	let date = new Date();
+	const date = new Date();
 
 	let month: string;
 	let year: number;
 
 	let days: number[] = [];
+	let today: number = 0;
 
 	const months = [
 		'Janvier',
@@ -46,7 +47,7 @@
 		for (let i = 1; i <= lastDay; i++) {
 			if (i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
 				days.push(i);
-				const today = i;
+				today = i;
 			} else {
 				days.push(i);
 			}
@@ -62,24 +63,27 @@
 	const prevMonth = () => {
 		setTimeout(() => {
 			date.setMonth(date.getMonth() - 1);
+			today = -1;
 			renderCalendar();
 		}, 500);
 	};
 	const nextMonth = () => {
 		setTimeout(() => {
 			date.setMonth(date.getMonth() + 1);
+			today = -1;
 			renderCalendar();
 		}, 500);
 	};
 
+	$: t = today;
 	$: d = days;
 </script>
 
 {#await renderCalendar()}
 	<p>wait..</p>
 {:then days}
-	<table id="calendar">
-		<div id="calendar-header" class="flex flex-row space-x-5">
+	<table id="calendar" class="w-full">
+		<thead class="flex flex-row space-x-5">
 			<button id="month-prev" class="btn btn-circle" on:click={prevMonth}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -109,20 +113,50 @@
 					/>
 				</svg>
 			</button>
-		</div>
+		</thead>
 
-		<div id="calendar-body">
-			<tr>
-				<th>Lun</th>
-				<th>Mar</th>
-				<th>Mer</th>
-				<th>Jeu</th>
-				<th>Ven</th>
-				<th>Sam</th>
-				<th>Dim</th>
-			</tr>
+		<div id="calendar-body" class="flex flex-col items-center justify-between overflow-x-auto pt-6">
+			<thead>
+				<tr>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Lun</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Mar</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Mer</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text- text-center font-medium text-gray-800 dark:text-gray-100">Jeu</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Ven</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Sam</p>
+						</div>
+					</th>
+					<th>
+						<div class="flex w-full justify-center">
+							<p class="text-center text-base font-medium text-gray-800 dark:text-gray-100">Dim</p>
+						</div>
+					</th>
+				</tr>
+			</thead>
 			{#key d}
-				<MonthlyDays days={d} />
+				<MonthlyDays days={d} today={t} />
 			{/key}
 		</div>
 	</table>

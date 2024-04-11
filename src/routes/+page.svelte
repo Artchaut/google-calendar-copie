@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Calendar from '$lib/components/MonthlyCalendar.svelte';
 	import CreateEvent from '$lib/components/CreateEvent.svelte';
 	import { DatePicker } from '@svelte-plugins/datepicker';
 	import { format } from 'date-fns';
@@ -8,26 +7,12 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import MonthlyCalendar from '$lib/components/MonthlyCalendar.svelte';
 
-	const day_name: string[] = [
-		'Lundi',
-		'Mardi',
-		'Mercredi',
-		'Jeudi',
-		'Vendredi',
-		'Samedi',
-		'Dimanche'
-	];
-	const makeMonth = (n_days: number, f_day: number) => {
-		const days: Day[] = [];
-		for (let i = 0; i < 35; i++) {
-			const day_n: string = day_name[f_day];
-			const day = { name: day_n, is_activated: false };
-		}
+	export let data;
 
-		return days;
-	};
+	let { session, supabase, events } = data;
+	$: ({ session, supabase, events } = data);
 
-	const days = makeMonth(31, 27);
+	console.log(data)
 
 	let showModal: boolean;
 	let loading: boolean = false;
@@ -63,16 +48,40 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<DatePicker bind:isOpen bind:startDate>
-		<input
-			type="text"
-			placeholder="Select date"
-			bind:value={formattedStartDate}
-			on:click={toggleDatePicker}
-		/>
-	</DatePicker>
-	<button class="btn btn-primary" on:click={() => (showModal = true)}>Clique</button>
+<section class="flex w-full flex-row">
+	<div>
+		<div id="comming-events" class="mb-7 flex flex-col">
+			<h1 class="text-base font-bold text-gray-800 focus:outline-none dark:text-gray-100">
+				<span>Évènement  à venir</span>
+<button class="btn btn-primary btn-outline" on:click={() => (showModal = true)}>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+	<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+  </svg>
+  Ajouter
+</button>
+			</h1>
+			<ul>
+				<!-- {#each events.data as event}
+					<li>{event}</li>
+				{:else}
+					No Events 
+				{/each} -->
+			</ul>
+		</div>
+		<hr />
+
+		<div id="bazar" class="mt-7 flex flex-col">
+			<DatePicker bind:isOpen bind:startDate class="mt-7">
+				<input
+					type="text"
+					placeholder="Select date"
+					bind:value={formattedStartDate}
+					on:click={toggleDatePicker}
+				/>
+			</DatePicker>
+			<button class="btn btn-primary" on:click={() => (showModal = true)}>Clique</button>
+		</div>
+	</div>
 	<MonthlyCalendar />
 </section>
 
