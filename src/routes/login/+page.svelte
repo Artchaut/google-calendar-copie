@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let form: PageData;
+	import type { ActionData } from '../$types';
+
+	export let form: ActionData;
 </script>
 
 <h1 class="mb-4 text-2xl text-base-content">Connection</h1>
@@ -42,6 +44,7 @@
 			? 'input input-bordered input-warning mb-8 w-full max-w-xs'
 			: 'input input-bordered input-secondary mb-8 w-full max-w-xs'}
 	/>
+	<a class="link link-primary mb-3" href="/reset">Mot de passe oublié ?</a>
 	<br />
 	<button class="btn btn-primary mb-4" type="submit">Connection</button>
 </form>

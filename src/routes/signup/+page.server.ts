@@ -10,14 +10,13 @@ export const actions = {
 			email,
 			password,
 			options: {
-				emailRedirectTo: `${url.origin}/profile`
+				emailRedirectTo: `${url.origin}/login`
 			}
 		});
 
 		if (error) {
 			return fail(422, { error: error.message, success: false, email });
 		}
-		throw redirect(302, '/profile');
 
 		return {
 			message: 'Un Email vous a normalement été envoyé afin de vous connecter',

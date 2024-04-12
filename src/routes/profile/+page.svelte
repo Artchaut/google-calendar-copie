@@ -31,61 +31,64 @@
 	};
 </script>
 
-<h1 class="primary-content mb-3 size-5 w-full content-center font-bold">Modifier votre Profil:</h1>
-<div class="form-widget mb-7">
-	<form
-		class="form"
-		method="post"
-		action="?/update"
-		use:enhance={handleSubmit}
-		bind:this={profileForm}
-	>
-		<div>
-			<label for="email">Email</label>
-			<input
-				class="input input-bordered mb-8 w-full max-w-xs"
-				id="email"
-				type="text"
-				value={session.user.email}
-				disabled
-			/>
-		</div>
+{#if session}
+	<h1 class="primary-content mb-3 size-5 w-full content-center font-bold">
+		Modifier votre Profil:
+	</h1>
+	<div class="form-widget mb-7">
+		<form
+			class="form"
+			method="post"
+			action="?/update"
+			use:enhance={handleSubmit}
+			bind:this={profileForm}
+		>
+			<div>
+				<label for="email">Email</label>
+				<input
+					class="input input-bordered mb-8 w-full max-w-xs"
+					id="email"
+					type="text"
+					value={session.user.email}
+					disabled
+				/>
+			</div>
 
-		<div>
-			<label for="fullName">Full Name</label>
-			<input
-				class="input input-bordered mb-8 w-full max-w-xs"
-				id="fullName"
-				name="fullName"
-				type="text"
-				value={form?.fullName ?? fullName}
-			/>
-		</div>
+			<div>
+				<label for="fullName">Nom</label>
+				<input
+					class="input input-bordered mb-8 w-full max-w-xs"
+					id="fullName"
+					name="fullName"
+					type="text"
+					value={form?.fullName ?? fullName}
+				/>
+			</div>
 
-		<div>
-			<label for="username">Username</label>
-			<input
-				class="input input-bordered mb-8 w-full max-w-xs"
-				id="username"
-				name="username"
-				type="text"
-				value={form?.username ?? username}
-			/>
-		</div>
+			<div>
+				<label for="username">Username</label>
+				<input
+					class="input input-bordered mb-8 w-full max-w-xs"
+					id="username"
+					name="username"
+					type="text"
+					value={form?.username ?? username}
+				/>
+			</div>
 
-		<div>
-			<input
-				type="submit"
-				class="btn btn-primary"
-				value={loading ? 'Loading...' : 'Update'}
-				disabled={loading}
-			/>
-		</div>
-	</form>
+			<div>
+				<input
+					type="submit"
+					class="btn btn-primary"
+					value={loading ? 'Loading...' : 'Update'}
+					disabled={loading}
+				/>
+			</div>
+		</form>
 
 		<form method="post" action="?/signout" use:enhance={handleSignOut} class="mb-10">
 			<div>
-				<button class="btn btn-primary" disabled={loading}>Sign Out</button>
+				<button class="btn btn-primary" disabled={loading}>Déconnection</button>
 			</div>
 		</form>
 	</div>

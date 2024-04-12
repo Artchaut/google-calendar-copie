@@ -4,7 +4,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
 	if (!session) {
-		return { session: null, profile: null};
+		return { session: null, profile: null };
 	}
 
 	const { data: profile } = await supabase

@@ -12,7 +12,7 @@
 	let { session, supabase, events } = data;
 	$: ({ session, supabase, events } = data);
 
-	console.log(data)
+	console.log(data);
 
 	let showModal: boolean;
 	let loading: boolean = false;
@@ -52,13 +52,20 @@
 	<div>
 		<div id="comming-events" class="mb-7 flex flex-col">
 			<h1 class="text-base font-bold text-gray-800 focus:outline-none dark:text-gray-100">
-				<span>Évènement  à venir</span>
-<button class="btn btn-primary btn-outline" on:click={() => (showModal = true)}>
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-	<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-  </svg>
-  Ajouter
-</button>
+				<span>Évènement à venir</span>
+				<button class="btn btn-outline btn-primary" on:click={() => (showModal = true)}>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="h-6 w-6"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Ajouter
+				</button>
 			</h1>
 			<ul>
 				<!-- {#each events.data as event}
