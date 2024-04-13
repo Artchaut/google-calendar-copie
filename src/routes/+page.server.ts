@@ -1,17 +1,23 @@
+import type { PageServerLoad } from './$types';
+
 type event = {
 	data: [];
 };
 
-export const load = async ({ locals: { supabase, getSession } }) => {
+export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
 	if (!session) {
 		return { error: 'session have not been loaded' };
 	}
 
-	const { events, err } = await supabase.eq('id', session.user.id).from('event').select();
+	const { events, err } = await supabase.from('event').select().eq('id', session.user.id);
 
-	return { session, events };
+	if (err) {
+		return { error: err.message };
+	} else {
+		return { session, events };
+	}
 };
 
 export const actions = {

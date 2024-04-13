@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-	import { slide } from 'svelte/transition';
-
 	export let days: number[];
 	export let today: number;
 </script>
@@ -15,11 +12,11 @@
 				<td>
 					<div class="h-full w-full">
 						<div class="flex w-full cursor-pointer items-center justify-center rounded-full">
-							<a
+							<button
 								role="link"
 								tabindex="0"
 								class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-700 text-base font-medium text-white hover:bg-indigo-500 focus:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-offset-2"
-								>{day}</a
+								on:click={() => console.log(day)}>{day}</button
 							>
 						</div>
 					</div>
@@ -27,7 +24,10 @@
 			{:else}
 				<td class="pt-8">
 					<div class="flex w-full cursor-pointer justify-center px-2 py-2">
-						<p class="text-base font-medium text-gray-500 dark:text-gray-100">{day}</p>
+						<button
+							class="text-base font-medium text-gray-500 dark:text-gray-100"
+							on:click={() => console.log(day)}>{day}</button
+						>
 					</div>
 				</td>
 			{/if}

@@ -1,18 +1,21 @@
 <script lang="ts">
 	import CreateEvent from '$lib/components/CreateEvent.svelte';
-	import { DatePicker } from '@svelte-plugins/datepicker';
-	import { format } from 'date-fns';
+	import MonthlyCalendar from '$lib/components/MonthlyCalendar.svelte';
 
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import MonthlyCalendar from '$lib/components/MonthlyCalendar.svelte';
+	import type { PageData } from './$types';
 
-	export let data;
-
-	let { session, supabase, events } = data;
-	$: ({ session, supabase, events } = data);
+	// get data from load function
+	export let data: PageData;
 
 	console.log(data);
+
+	let { supabase, session, e } = data;
+	$: ({ supabase, session, e } = data);
+
+  $: events = e === undefined ? [] : e;
+
 
 	let showModal: boolean;
 	let loading: boolean = false;
@@ -23,24 +26,6 @@
 			loading = false;
 		};
 	};
-
-	let startDate = new Date();
-	let dateFormat = 'dd/MM/yyyy';
-	let isOpen = false;
-
-	const toggleDatePicker = () => (isOpen = !isOpen);
-
-	const formatDate = (dateString: string | number | Date) => {
-		return (dateString && format(new Date(dateString), dateFormat)) || '';
-	};
-
-	let formattedStartDate = formatDate(startDate);
-
-	const onChange = () => {
-		startDate = new Date(formattedStartDate);
-	};
-
-	$: formattedStartDate = formatDate(startDate);
 </script>
 
 <svelte:head>
@@ -52,7 +37,7 @@
 	<div>
 		<div id="comming-events" class="mb-7 flex flex-col">
 			<h1 class="text-base font-bold text-gray-800 focus:outline-none dark:text-gray-100">
-				<span>Évènement à venir</span>
+				<span class="text-primary mr-3">Évènement à venir</span>
 				<button class="btn btn-outline btn-primary" on:click={() => (showModal = true)}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -67,25 +52,35 @@
 					Ajouter
 				</button>
 			</h1>
-			<ul>
-				<!-- {#each events.data as event}
-					<li>{event}</li>
-				{:else}
-					No Events 
-				{/each} -->
-			</ul>
+			{#if data.error}
+				<div role="alert" class="alert alert-error mt-3 mb-3">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-6 w-6 shrink-0 stroke-current"
+						fill="none"
+						viewBox="0 0 24 24"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+						/></svg
+					>
+					<span>Erreur! Les données n'ont pas été chargées.</span>
+				</div>
+			{:else}
+				<ul>
+					{#each events as event}
+						<li>{event}</li>
+					{:else}
+						Vous n'avez aucun évènement à venir
+					{/each}
+				</ul>
+			{/if}
 		</div>
 		<hr />
 
 		<div id="bazar" class="mt-7 flex flex-col">
-			<DatePicker bind:isOpen bind:startDate class="mt-7">
-				<input
-					type="text"
-					placeholder="Select date"
-					bind:value={formattedStartDate}
-					on:click={toggleDatePicker}
-				/>
-			</DatePicker>
 			<button class="btn btn-primary" on:click={() => (showModal = true)}>Clique</button>
 		</div>
 	</div>

@@ -12,7 +12,7 @@ export const actions = {
 		});
 
 		if (error) {
-			console.log(error)
+			console.log(error);
 			return fail(422, { error: error.message, success: false });
 		}
 
